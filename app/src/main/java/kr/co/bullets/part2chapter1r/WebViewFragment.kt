@@ -1,14 +1,16 @@
 package kr.co.bullets.part2chapter1r
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebViewClient
+import android.widget.Toast
+import androidx.core.content.edit
+import androidx.fragment.app.Fragment
 import kr.co.bullets.part2chapter1r.databinding.FragmentWebViewBinding
 
-class WebViewFragment : Fragment() {
+class WebViewFragment(private val position: Int) : Fragment() {
     private lateinit var binding: FragmentWebViewBinding
 
     override fun onCreateView(
@@ -20,9 +22,25 @@ class WebViewFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.webView.webViewClient = WebtoonWebViewClient(binding.progressBar)
+        binding.webView.webViewClient = WebtoonWebViewClient(binding.progressBar) { url ->
+            // commit: 동기 처리
+            // apply: 비동기 처리
+            activity?.getSharedPreferences("WEB_HISTORY", Context.MODE_PRIVATE)?.edit {
+                putString("tab$position", url)
+            }
+        }
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.loadUrl("https://comic.naver.com/webtoon/detail?titleId=728750&no=213")
+
+        binding.backToLastButton.setOnClickListener {
+            val sharedPreference = activity?.getSharedPreferences("WEB_HISTORY", Context.MODE_PRIVATE)
+            val url = sharedPreference?.getString("tab$position", "")
+            if (url.isNullOrEmpty()) {
+                Toast.makeText(context, "마지막 저장 시점이 없습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                binding.webView.loadUrl(url)
+            }
+        }
     }
 
     fun canGoBack(): Boolean {
