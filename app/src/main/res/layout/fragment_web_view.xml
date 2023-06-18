@@ -10,9 +10,38 @@
         android:id="@+id/web_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/back_to_last_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/web_view"
+        app:layout_constraintEnd_toEndOf="@id/web_view"
+        app:layout_constraintStart_toStartOf="@id/web_view"
+        app:layout_constraintTop_toTopOf="@id/web_view" />
+
+    <!-- 마지막 시점 돌아가기 -->
+    <Button
+        android:id="@+id/back_to_last_button"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="@string/back_to_history"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/change_tab_name_button"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- 탭 이름 바꾸기 -->
+    <Button
+        android:id="@+id/change_tab_name_button"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="@string/change_tab_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/back_to_last_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
